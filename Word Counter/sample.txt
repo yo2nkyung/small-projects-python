@@ -1,0 +1,7 @@
+This is a sample text file.
+It contains several words.
+Some words appear more than once.
+Check this result.
+He's a developer. They work on AI-related projects.
+"Python-based tools are widely used."
+"Self-driving cars: the next frontier."
