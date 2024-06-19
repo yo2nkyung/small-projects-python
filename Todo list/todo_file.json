@@ -1,1 +1,6 @@
-["brush", "wash"]
+[
+    {"item": "apple", "completed": true, "priority": "low"},
+    {"item": "plumplum", "completed": false, "priority": "low"},
+    {"item": "orange", "completed": true, "priority": "medium"},
+    {"item": "pear2", "completed": false, "priority": "medium"}
+]
