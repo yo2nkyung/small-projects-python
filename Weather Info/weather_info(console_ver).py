@@ -39,7 +39,7 @@ def display_weather(weather_data):
         print(f"Error extracting weather data: {e}")
 
         
-api_key = "cea480f592567920fdcda69d9aba4577"
+api_key = "Your personal key"
 location = get_user_location()
 weather_data = fetch_weather(location, api_key)
 print(f"Location entered: {location}")
