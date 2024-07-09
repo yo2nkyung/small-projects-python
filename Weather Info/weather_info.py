@@ -7,23 +7,9 @@ import io
 
 def create_main_window():
     window = tk.Tk()
+    window.geometry("450x500")
     window.title("Weather Application")
-
-    # Location input field
-    tk.Label(window, text="Enter location:").pack(pady=5)
-    location_entry = tk.Entry(window)
-    location_entry.pack(pady=5)
-
-    # weather info field
-    weather_info = tk.Label(window, text="_", justify="left")
-    weather_info.pack(pady=10)
-
-    weather_icon_label = tk.Label(window)
-    weather_icon_label.pack(pady=10)
-
-    forecast_info = tk.Label(window, text="=", justify="left")
-    forecast_info.pack(pady=10)
-
+    
     def get_weather():
         location = location_entry.get()
         if location:
@@ -40,9 +26,28 @@ def create_main_window():
                 messagebox.showerror("Error", "Could not retrieve weather data.")
         else:
             messagebox.showerror("Input Required", "Please enter a location.")
-    
+
+    # Location input field
+    tk.Label(window, text="Enter location:").pack(pady=5)  # widget 1
+    location_entry = tk.Entry(window)
+    location_entry.pack(pady=5)    # widget 2
+
     fetch_button = tk.Button(window, text="Get Weather", command=get_weather)
-    fetch_button.pack(pady=5)
+    fetch_button.pack(pady=10)    # widget 3
+
+    # weather info field
+    weather_info = tk.Label(window, text="", justify="left")
+    weather_info.pack(pady=10) # widget 4
+
+    weather_icon_label = tk.Label(window)
+    weather_icon_label.pack(pady=10)    # widget 5
+
+    forecast_info = tk.Label(window, text="", justify="left")
+    forecast_info.pack(pady=10) # widget 6
+
+
+    
+
 
     window.mainloop()
 
@@ -59,8 +64,6 @@ def fetch_weather(location, api_key):
         result = requests.get(url, params=params)
         result.raise_for_status()
         weather_data = result.json()
-        with open('weather_data.json', 'w', encoding='utf-8') as json_file:
-            json.dump(weather_data, json_file, ensure_ascii=False, indent=4)
         return weather_data
     except requests.RequestException as e:
         print(f"An error occurred: {e}")
@@ -113,11 +116,12 @@ def display_weather(weather_data, weather_info, weather_icon_label):
 def display_forecast(forecast_data, forecast_info):
     try:
         forecast_text = "5-day Forecast\n"
-        for forecast in forecast_data["list"][:5]:
-            date = forecast["dt_txt"]
-            temp = forecast["main"]["temp"]
-            description = forecast["weather"][0]["description"]
-            forecast_text += f"{date} {temp}°C {description.capitalize()}\n"
+        for forecast in forecast_data["list"]:
+            if "00:00:00" in forecast["dt_txt"]:
+                date = forecast["dt_txt"].split(" ")[0]
+                temp = forecast["main"]["temp"]
+                description = forecast["weather"][0]["description"]
+                forecast_text += f"{date} {temp}°C {description.capitalize()}\n"
 
         forecast_info.config(text = forecast_text)
     except KeyError as e:
@@ -125,7 +129,7 @@ def display_forecast(forecast_data, forecast_info):
 
 
 
-api_key = "cea480f592567920fdcda69d9aba4577" # Change to the API key issued by OpenWeatherMap.
+api_key = "own_API_key" # Change to the API key issued by OpenWeatherMap.
 
 if __name__ == "__main__":
     create_main_window()
